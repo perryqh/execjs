@@ -213,7 +213,7 @@ module ExecJS
           output = io.read
           io.close
 
-          if $?.success?
+          if $? && $?.success? # seems there could be a race condition where $? is nil
             output
           else
             raise exec_runtime_error(output)
