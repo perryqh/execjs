@@ -213,7 +213,9 @@ module ExecJS
           output = io.read
           io.close
 
-          if $? && $?.success? # seems there could be a race condition where $? is nil
+          raise exec_runtime_error("$? is blank! See https://github.com/rails/execjs/issues/19") if $?.blank?
+
+          if $?.success? # seems there could be a race condition where $? is nil
             output
           else
             raise exec_runtime_error(output)
